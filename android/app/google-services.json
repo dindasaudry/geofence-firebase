@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "394261526577",
+    "project_id": "geofence-app-2896e",
+    "storage_bucket": "geofence-app-2896e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:394261526577:android:e8dd55d0cfa5454a3efd10",
+        "android_client_info": {
+          "package_name": "com.example.projectoriv2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBS_GTLSfXPQWJ58e3Dd7yHgx4xOKNRn3s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
