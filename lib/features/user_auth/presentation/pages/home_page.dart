@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geofencefirebase/features/user_auth/presentation/land/land_page.dart';
+import 'package:geofencefirebase/features/user_auth/presentation/profile/profile_page.dart';
 
 import '../../../../global/common/toast.dart';
 
@@ -49,45 +51,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
-              StreamBuilder<List<UserModel>>(
-                stream: _readData(),
-                builder: (context, snapshot) {
-                  if(snapshot.connectionState == ConnectionState.waiting){
-                    return Center(child: CircularProgressIndicator(),);
-                  } if(snapshot.data!.isEmpty){
-                    return Center(child:Text("No Data Yet"));
-                  }
-                  final users = snapshot.data;
-                  return Padding(padding: EdgeInsets.all(8),
-                  child: Column(
-                    children: users!.map((user) {
-                      return ListTile(
-                        leading: GestureDetector(
-                          onTap: (){
-                            _deleteData(user.id!);
-                          },
-                          child: Icon(Icons.delete),
-                        ),
-                        trailing: GestureDetector(
-                          onTap: (){
-                            _updateData(
-                              UserModel(
-                                id: user.id,
-                                username: "John Wick",
-                                adress: "Pakistan",)
-                            );
-                          },
-                          child: Icon(Icons.update),
-                        ),
-                        title: Text(user.username!),
-                        subtitle: Text(user.adress!),
-                      );
-                    }).toList()
-                  ),);
-                }
-              ),
-
+              SizedBox(height: 10), // Space between "Create Data" and "Sign out"
               GestureDetector(
                 onTap: () {
                   FirebaseAuth.instance.signOut();
@@ -101,16 +65,77 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.blue,
                       borderRadius: BorderRadius.circular(10)),
                   child: Center(
-                    child: Text(
-                      "Sign out",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0), // Padding inside the button
+                      child: Text(
+                        "Sign out",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
                     ),
                   ),
                 ),
-              )
+              ),
+              SizedBox(height: 20), // Space between "Sign out" and "Profile"
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()),
+                        (route) => false,
+                  );
+                },
+                child: Container(
+                  height: 45,
+                  width: 100,
+                  decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0), // Padding inside the button
+                      child: Text(
+                        "Profile",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20), // Space between "Profile" and "Land"
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => LandPage()),
+                        (route) => false,
+                  );
+                },
+                child: Container(
+                  height: 45,
+                  width: 100,
+                  decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0), // Padding inside the button
+                      child: Text(
+                        "Land",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ));
