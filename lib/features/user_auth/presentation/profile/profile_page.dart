@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geofencefirebase/features/user_auth/presentation/profile/profile_data.dart';
 import 'package:geofencefirebase/features/user_auth/presentation/profile/profiledisplay.dart';
+import 'package:geofencefirebase/features/user_auth/presentation/pages/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
@@ -34,6 +35,12 @@ class _ProfilePageState extends State<ProfilePage> {
  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+  Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+},
+        ),
         title: Text('Profile Page'),
       ),
       body: Padding(
@@ -123,17 +130,29 @@ Future<void> _insertProfile(BuildContext context, String name, String role, Stri
     'address': newProfileData['address'] as String,
   };
 
+  // Fetch the updated list of profiles from Firestore
+  QuerySnapshot querySnapshot = await firestore.collection('profiles').get();
+  List<Map<String, String>> updatedProfiles = querySnapshot.docs.map((doc) {
+    return {
+      'id': doc.id,
+      'name': doc['name'] as String,
+      'role': doc['role'] as String,
+      'address': doc['address'] as String,
+    };
+  }).toList();
+
   // Navigate to the new page after data insertion
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => ProfileDisplayPage(profile: newProfileDataString)),
+    MaterialPageRoute(builder: (context) => ProfileDisplayPage(profiles: updatedProfiles)),
   );
 
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(content: Text('Data Saved Successfully')),
   );
-  Navigator.pop(context); // Navigate back to ProfileDisplayPage after adding profile
 }
+
+
 
 
 }

@@ -1,4 +1,5 @@
 class LandRecord {
+ final String profileName;
  final String landName;
  final String address;
  final String areaSize;
@@ -6,6 +7,7 @@ class LandRecord {
  final String ispoCertificate;
 
  LandRecord({
+    required this.profileName,
     required this.landName,
     required this.address,
     required this.areaSize,

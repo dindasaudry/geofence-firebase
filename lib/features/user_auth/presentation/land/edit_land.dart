@@ -14,6 +14,7 @@ class EditLandPage extends StatefulWidget {
 
 class _EditLandPageState extends State<EditLandPage> {
   final _formKey = GlobalKey<FormState>();
+  late TextEditingController _profileNameController;
   late TextEditingController _landNameController;
   late TextEditingController _addressController;
   late TextEditingController _areaSizeController;
@@ -24,6 +25,7 @@ class _EditLandPageState extends State<EditLandPage> {
   void initState() {
     super.initState();
     // Initialize controllers with empty strings if no initial values are available
+    _profileNameController = TextEditingController(text: '');
     _landNameController = TextEditingController(text: '');
     _addressController = TextEditingController(text: '');
     _areaSizeController = TextEditingController(text: '');
@@ -33,6 +35,7 @@ class _EditLandPageState extends State<EditLandPage> {
 
   @override
   void dispose() {
+    _profileNameController.dispose();
     _landNameController.dispose();
     _addressController.dispose();
     _areaSizeController.dispose();
@@ -51,6 +54,10 @@ class _EditLandPageState extends State<EditLandPage> {
         key: _formKey,
         child: Column(
           children: <Widget>[
+            TextFormField(
+              controller: _profileNameController,
+              decoration: InputDecoration(labelText: 'Nama Pemilik Lahan'),
+            ),
             TextFormField(
               controller: _landNameController,
               decoration: InputDecoration(labelText: 'Nama Lahan'),
@@ -75,6 +82,7 @@ class _EditLandPageState extends State<EditLandPage> {
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   await widget.onUpdate(LandRecord(
+                    profileName: _profileNameController.text,
                     landName: _landNameController.text,
                     address: _addressController.text,
                     areaSize: _areaSizeController.text,
